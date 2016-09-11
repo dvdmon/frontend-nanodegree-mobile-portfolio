@@ -7,7 +7,7 @@ Header set Cache-Control "max-age=2592000, public"
 Header set Cache-Control "max-age=604800, public"
 </filesMatch>
 <filesMatch "\\.(js)$">
-Header set Cache-Control "max-age=216000, public"
+Header set Cache-Control "max-age=216000, private"
 </filesMatch>
 <filesMatch "\\.(xml|txt)$">
 Header set Cache-Control "max-age=216000, public, must-revalidate"
