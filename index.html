@@ -3,17 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content=" FILL ME IN ">
-    <meta name="author" content=" FILL ME IN ">
+    <meta name="description" content="Udacity Front End Developer Website Performance Optimization Project">
+    <meta name="author" content="Levi Wallach">
     <title>Cameron Pittman: Portfolio</title>
 
     <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet">
-
+    <noscript id="deferred-styles">
+      <link href="css/style.css" rel="stylesheet">
+      <link href="css/print.css" rel="stylesheet">
+    </noscript>
     <script>
+      var loadDeferredStyles = function() {
+        var addStylesNode = document.getElementById("deferred-styles");
+        var replacement = document.createElement("div");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement);
+        addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) { raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      } else { window.addEventListener('load', loadDeferredStyles);
+      }
+    </script>
+   <script>
       (function(w,g){w['GoogleAnalyticsObject']=g;
       w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
 
