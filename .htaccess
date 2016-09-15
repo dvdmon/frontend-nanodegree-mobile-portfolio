@@ -17,3 +17,4 @@ Header set Cache-Control "max-age=1, private, must-revalidate"
 </filesMatch>
 </ifModule>
 # END Caching
+AddType text/cache-manifest .appcache
