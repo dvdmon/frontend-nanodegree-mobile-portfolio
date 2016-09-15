@@ -1,8 +1,7 @@
 CACHE MANIFEST
-# 2016-09-14:v1
+# 2016-09-14:v3
 
 # Explicitly cached entries
-CACHE:
 css/style.css
 css/print.css
 img/cam_be_like.jpg
@@ -10,6 +9,9 @@ img/mobilewebdev.jpg
 img/profilepic.jpg
 img/2048.png
 js/perfmatters.js
+views/images/pizzeria.jpg
+https://www.google-analytics.com/analytics.js
+http://fonts.googleapis.com/css?family=Open+Sans:400,700
 
 # All other resources (e.g. sites) require the user to be online.
 NETWORK:
