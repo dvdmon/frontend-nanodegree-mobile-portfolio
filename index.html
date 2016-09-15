@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="mainindex.appcache">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Udacity Front End Developer Website Performance Optimization Project">
     <meta name="author" content="Levi Wallach">
-    <title>Cameron Pittman: Portfolio</title>
-    <noscript id="deferred-styles">
-      <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+      <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
       <link href="css/style.css" rel="stylesheet">
       <link href="css/print.css" rel="stylesheet">
-    </noscript>
+
     <script>
-      var loadDeferredStyles = function() {
-        var addStylesNode = document.getElementById("deferred-styles");
-        var replacement = document.createElement("div");
-        replacement.innerHTML = addStylesNode.textContent;
-        document.body.appendChild(replacement);
-        addStylesNode.parentElement.removeChild(addStylesNode);
-      };
-      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-          webkitRequestAnimationFrame || msRequestAnimationFrame;
-      if (raf) { raf(function() { window.setTimeout(loadDeferredStyles, 0); });
-      } else { window.addEventListener('load', loadDeferredStyles);
-      }
+
+
+      window.addEventListener('load', function(e) {
+
+        window.applicationCache.addEventListener('updateready', function(e) {
+          if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+            // Browser downloaded a new app cache.
+            if (confirm('A new version of this site is available. Load it?')) {
+              window.location.reload();
+            }
+          } else {
+            // Manifest didn't changed. Nothing new to server.
+          }
+        }, false);
+
+      }, false);
     </script>
    <script>
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
