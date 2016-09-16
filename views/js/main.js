@@ -507,9 +507,9 @@ function updatePositions() {
   var items = document.querySelectorAll('.mover');
   var phase = 0;
   for (var i = 0; i < 32; i++) {
-   // phase = Math.sin(sctop + i);
-    items[i].style.left = items[i].basicLeft + 100 * (sctop + i) + 'px';
-    //console.log(i % 5);
+    phase = Math.sin(sctop + i);
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+   // console.log(i % 5);
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -518,7 +518,7 @@ function updatePositions() {
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
   if (frame % 10 === 0) {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-   logAverageFrame(timesToUpdatePosition);
+ logAverageFrame(timesToUpdatePosition);
   }
 }
 
