@@ -1,9 +1,21 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" manifest="pizza.appcache">
 <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cam's Pizzaria</title>
+     <script>
+      window.addEventListener('load', function(e) {
+
+        window.applicationCache.addEventListener('updateready', function(e) {
+          if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+            // Browser downloaded a new app cache.
+              window.location.reload();
+          }
+        }, false);
+
+      }, false);
+    </script>
      <script>
       var cb = function() {
         var stylesht1 = document.createElement('link');
