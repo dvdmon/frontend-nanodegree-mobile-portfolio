@@ -6,13 +6,11 @@
     <meta name="description" content="Udacity Front End Developer Website Performance Optimization Project">
     <meta name="author" content="Levi Wallach">
 
-      <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-      <link href="css/style.css" rel="stylesheet">
+
+
       <link href="css/print.css" rel="stylesheet" media="print">
 
     <script>
-
-
       window.addEventListener('load', function(e) {
 
         window.applicationCache.addEventListener('updateready', function(e) {
@@ -28,6 +26,23 @@
 
       }, false);
     </script>
+    <script>
+      var cb = function() {
+        var googlefont = document.createElement('link');
+        googlefont.rel = 'stylesheet';
+        googlefont.href = 'http://fonts.googleapis.com/css?family=Open+Sans:400,700';
+        var stylesht = document.createElement('link');
+        stylesht.rel = 'stylesheet';
+        stylesht.href = 'css/style.css';
+        var h = document.getElementsByTagName('head')[0];
+        h.parentNode.insertBefore(googlefont, h);
+        h.parentNode.insertBefore(stylesht, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+   </script>
    <script>
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-XXXXX-Y', 'auto');
