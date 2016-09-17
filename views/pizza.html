@@ -4,18 +4,7 @@
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cam's Pizzaria</title>
-     <script>
-      window.addEventListener('load', function(e) {
 
-        window.applicationCache.addEventListener('updateready', function(e) {
-          if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-            // Browser downloaded a new app cache.
-              window.location.reload();
-          }
-        }, false);
-
-      }, false);
-    </script>
      <script>
       var cb = function() {
         var stylesht1 = document.createElement('link');
@@ -24,9 +13,9 @@
         var stylesht2 = document.createElement('link');
         stylesht2.rel = 'stylesheet';
         stylesht2.href = 'css/bootstrap-grid.css';
-        var h = document.getElementsByTagName('head')[0];
-        h.parentNode.insertBefore(stylesht1, h);
-        h.parentNode.insertBefore(stylesht2, h);
+        var t = document.getElementsByTagName('title')[0];
+        t.parentNode.insertBefore(stylesht1, t);
+        t.parentNode.insertBefore(stylesht2, t);
       };
       var raf = requestAnimationFrame || mozRequestAnimationFrame ||
           webkitRequestAnimationFrame || msRequestAnimationFrame;
@@ -169,6 +158,5 @@
   </div>
   <script type="text/javascript" src="js/main.js"></script>
 </body>
+</html>
 
-</html>
-</html>
