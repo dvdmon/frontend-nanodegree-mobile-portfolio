@@ -501,17 +501,17 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 function updatePositions() {
   frame++;
-  var sctop = document.body.scrollTop / 250;
+  var sctop = document.body.scrollTop / 1250;
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  var phase = 0;
+  //var phase = 0;
   for (var i = 0; i < 32; i++) {
    // phase = Math.sin(sctop + i);
     items[i].style.left = items[i].basicLeft + 100 * (Math.sin(sctop + i)) + 'px';
+
    // console.log(i % 5);
   }
-
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
   window.performance.mark("mark_end_frame");
@@ -520,10 +520,23 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
  logAverageFrame(timesToUpdatePosition);
   }
+
+  ticking = false;
 }
 
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
+window.addEventListener('scroll', onScroll, false);
+
+function onScroll() {
+  requestTick();
+}
+
+function requestTick() {
+  if(!ticking) {
+    requestAnimationFrame(updatePositions);
+  }
+  ticking = true;
+}
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
