@@ -30,6 +30,9 @@
         var stylesht = document.createElement('link');
         stylesht.rel = 'stylesheet';
         stylesht.href = 'css/style.css';
+        var perf = document.createElement('script');
+        perf.src = 'js/perfmatters.js';
+        perf.async = true;
         var h = document.getElementsByTagName('head')[0];
         h.parentNode.insertBefore(googlefont, h);
         h.parentNode.insertBefore(stylesht, h);
@@ -45,7 +48,7 @@
       ga('send', 'pageview');
   </script>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <script async src="js/perfmatters.js"></script>
+
   </head>
 
   <body>
