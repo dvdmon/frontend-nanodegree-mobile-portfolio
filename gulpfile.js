@@ -51,10 +51,10 @@ gulp.task('jsLint', function () {
 gulp.task('minifyMainJs', function() {
   gulp.src('app/js/*.js')
     .pipe(minify({
-        noSource,
-
+        src:'-debug.js',
+        min:'.js'
     }))
-    .pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('dist/js/'))
 });
 
 gulp.task('minifyViewsJs', function() {
@@ -65,7 +65,7 @@ gulp.task('minifyViewsJs', function() {
             min:'.js'
         }
     }))
-    .pipe(gulp.dest('dist/views/js'))
+    .pipe(gulp.dest('dist/views/js/'))
 });
 
 gulp.task('minifyMainHTML', function () {
@@ -83,23 +83,23 @@ gulp.task('minifyViewsHTML', function () {
 gulp.task('minifyMainCss', function() {
     return gulp.src('app/css/*.css')
         .pipe(cssnano())
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('minifyViewsCss', function() {
     return gulp.src('app/views/css/*.css')
         .pipe(cssnano())
-        .pipe(gulp.dest('./dist/views/css'));
+        .pipe(gulp.dest('./dist/views/css/'));
 });
 
 gulp.task('minifyMainImages', () =>
     gulp.src('app/img/*')
         .pipe(imagemin())
-        .pipe(gulp.dest('dist/img'))
+        .pipe(gulp.dest('dist/img/'))
 );
 
-gulp.task('minifyMainImages', () =>
+gulp.task('minifyViewsImages', () =>
     gulp.src('app/views/images/*')
         .pipe(imagemin())
-        .pipe(gulp.dest('dist/views/images'))
+        .pipe(gulp.dest('dist/views/images/'))
 );
