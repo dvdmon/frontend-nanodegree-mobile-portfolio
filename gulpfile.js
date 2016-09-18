@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-	gutil = require('gulp-util'),
 	cssnano = require('gulp-cssnano'),
 	jshint = require('gulp-jshint'),
 	imagemin = require('gulp-imagemin'),
