@@ -419,6 +419,7 @@ var pizzaElementGenerator = function(i) {
 	return pizzaContainer;
 };
 
+// declaring the ticking variable that is used in the rAF code
 var ticking = false;
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
@@ -447,9 +448,9 @@ var resizePizzas = function(size) {
 
 	// Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
 	function determineDx(elem, size) {
-		//var oldWidth = elem.offsetWidth;
+		// removed the var oldWidth = elem.offsetWidth and combined it into the return statement for a microoptimization;
 		var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-		//var oldSize = oldWidth / windowWidth;
+		// removed the var oldSize = oldWidth / windowWidth and combined it into the return statement for ANOTHER microoptimization;
 
 		// Changes the slider value to a percent width
 		function sizeSwitcher(size) {
@@ -465,21 +466,26 @@ var resizePizzas = function(size) {
 			}
 		}
 
-		//var newSize = sizeSwitcher(size);
-		//var dx = (newSize - oldSize) * windowWidth;
-
+		/* removed the var newSize = sizeSwitcher(size) and combined it into the return statement for ANOTHER microoptimization;
+		 removed the var dx = (newSize - oldSize) * windowWidth and combined it into the return statement for ANOTHER microoptimization;
+		 finally the resulting return statement only relies on the declaration of one variable above - windowWidth - which I kept in because
+		 it's referenced multiple times.
+		 */
 		return (sizeSwitcher(size) - (elem.offsetWidth / windowWidth)) * windowWidth;
 	}
 
 	// Iterates through pizza elements on the page and changes their widths
 	function changePizzaSizes(size) {
-		// took the dx and newwidth variable assignments out of the look because they only need to be
-		// done once per call of changePizzaSlices() since they will be the same values for all pizza images.
-		// also replaced querySelector with getElementsByClassName since the latter incurs less cost in terms of
-		// browser speed
+		/* took the dx and newwidth variable assignments out of the loop because they only need to be
+		 executed once per call of changePizzaSlices() function since they will be the same values for all pizza images.
+		 also replaced querySelector with getElementsByClassName since the latter incurs less cost in terms of
+		 browser speed - based on http://web.archive.org/web/20160108040024/http://jsperf.com/getelementbyid-vs-queryselector (page is currently
+			inaccessible)
+		*/
 		var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[0], size);
 		var newwidth = (document.getElementsByClassName("randomPizzaContainer")[0].offsetWidth + dx) + 'px';
 		for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
+			// the new loop now only contains one style element change for each loop, trastically cutting down jank.
 			document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
 		}
 	}
@@ -530,16 +536,36 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 
 function updatePositions() {
 	frame++;
+	/* there was initially a variable assignment in the loop that used the scrollTop attribute to provide a value for the
+		change in the left position for the style of the pizza:
+		var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5))
+
+		First of all, it wasn't necessary to assign a variable during
+		each loop, so that was taken out, but also, it turns out that the calculation itself did not depend on anything but the
+		counter, so I was able to do much of the calculation here initially. Specifically:
+
+		1) document.body.scrollTop is going to be identical every iteration of the loop -only differs each time
+		updatePositions() is called.
+		2) based on console log, the part of the calculation (i % 5) was only ever one of 5 values - which actually correlated to
+		the value of i
+	*/
 	var sctop = document.body.scrollTop / 1250;
 	window.performance.mark("mark_start_frame");
 
+	/* querySelector was replaced by getElementByClassName since the latter incurs less cost in terms of
+		 browser speed - based on http://web.archive.org/web/20160108040024/http://jsperf.com/getelementbyid-vs-queryselector (page is currently
+			inaccessible)
+	*/
 	var items = document.getElementsByClassName('mover');
-	//var phase = 0;
+	/* the background pizza images, even on a very large screen (19XXpx wide) seems to display at most 32 images.
+	   so it's unecessary to loop through all 200 elements on the screen, thus making much less repainting for each
+	   loop and speeding up responsiveness.
+	*/
 	for (var i = 0; i < 32; i++) {
-		// phase = Math.sin(sctop + i);
+		/* variable declaration gone and the phase calculation as refactored out of the loop is incorporated into the style assignment
+			thus significally increasing responsiveness of the animation.
+		*/
 		items[i].style.left = items[i].basicLeft + 100 * (Math.sin(sctop + i)) + 'px';
-
-		// console.log(i % 5);
 	}
 	// User Timing API to the rescue again. Seriously, it's worth learning.
 	// Super easy to create custom metrics.
@@ -549,13 +575,24 @@ function updatePositions() {
 		var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
 		logAverageFrame(timesToUpdatePosition);
 	}
-
+	/* as mentione below, this resets the variable once the animation is complete so that the next scroll event
+		will trigger the rAF again.
+	*/
 	ticking = false;
 }
 
-// runs updatePositions on scroll
+// this was changed to run the onSCroll function for debouncing of scroll events
 window.addEventListener('scroll', onScroll, false);
 
+/* based on the information from http://www.html5rocks.com/en/tutorials/speed/animations/
+	this was needed to enable debouncing of the scroll event.  Based on the code, we are setting
+	the ticking variable false initially.  When a scoll event occurs, requestTieck() is executed
+	which checks if ticking is true or false.  If it's false, runs the updatePositions().
+
+	updatePositions runs and executes the animation using rAF, then sets ticking to false, that way when
+	the next scroll event happens, it will run the updatePositions again.  So, it seems that this is
+	primarily for preventing additional requestAnimationFrames from ocurring while another one is in progress
+*/
 function onScroll() {
 	requestTick();
 }
