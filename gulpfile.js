@@ -6,7 +6,6 @@ var gulp = require('gulp'),
 	minify = require('gulp-minify'),
 	minifyHtml = require("gulp-minify-html"),
 	prettify = require('gulp-html-prettify'),
-	removeEmptyLines = require('gulp-remove-empty-lines'),
 	beautify = require('gulp-jsbeautify'),
 	convertNewline = require("gulp-convert-newline");
 
@@ -89,22 +88,6 @@ gulp.task('prettifyViewsHTML', function() {
 			indent_size: 1
 		}))
 		.pipe(gulp.dest('app/views/'))
-});
-
-gulp.task('cleanMainHTML', function() {
-	gulp.src('app/*.html')
-		.pipe(removeEmptyLines({
-			removeComments: false
-		}))
-		.pipe(gulp.dest('app/'));
-});
-
-gulp.task('cleanViewsHTML', function() {
-	gulp.src('app/views/*.html')
-		.pipe(removeEmptyLines({
-			removeComments: false
-		}))
-		.pipe(gulp.dest('app/views/'));
 });
 
 gulp.task('beautifyViewsJS', function() {
