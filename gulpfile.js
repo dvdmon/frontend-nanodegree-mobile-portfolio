@@ -7,7 +7,8 @@ var gulp = require('gulp'),
 	minifyHtml = require("gulp-minify-html"),
 	prettify = require('gulp-html-prettify'),
 	removeEmptyLines = require('gulp-remove-empty-lines'),
-	beautify = require('gulp-jsbeautify');
+	beautify = require('gulp-jsbeautify'),
+	convertNewline = require("gulp-convert-newline");
 
 gulp.task('jsLint', function() {
 	gulp.src('/*.js') // path to your files
@@ -122,4 +123,20 @@ gulp.task('beautifyGulpJS', function() {
 			indent_size: 1
 		}))
 		.pipe(gulp.dest('./'));
+});
+
+gulp.task("crlfMainHTML", function() {
+    return gulp.src("app/index.html")
+        .pipe(convertNewline({
+            newline: "crlf"
+        }))
+        .pipe(gulp.dest("app/"));
+});
+
+gulp.task("crlfViewsHTML", function() {
+    return gulp.src("app/views/pizza.html")
+        .pipe(convertNewline({
+            newline: "crlf"
+        }))
+        .pipe(gulp.dest("app/views/"));
 });
