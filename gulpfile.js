@@ -1,20 +1,22 @@
 var gulp = require('gulp'),
 	gutil = require('gulp-util'),
-	sass = require('gulp-ruby-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
+	//sass = require('gulp-ruby-sass'),
+    //autoprefixer = require('gulp-autoprefixer'),
     cssnano = require('gulp-cssnano'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
-    rename = require('gulp-rename'),
-    concat = require('gulp-concat'),
+    //rename = require('gulp-rename'),
+    //concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
-    livereload = require('gulp-livereload'),
-    del = require('del'),
-    browserSync = require('browser-sync').create(),
+    //livereload = require('gulp-livereload'),
+    //del = require('del'),
+    //browserSync = require('browser-sync').create(),
     minify = require('gulp-minify')
-    minifyHtml = require("gulp-minify-html");
+    minifyHtml = require("gulp-minify-html"),
+    prettify = require('gulp-html-prettify'),
+    removeEmptyLines = require('gulp-remove-empty-lines');
 
 
 gulp.task('task-name', function () {
@@ -103,3 +105,36 @@ gulp.task('minifyViewsImages', () =>
         .pipe(imagemin())
         .pipe(gulp.dest('dist/views/images/'))
 );
+
+gulp.task('format',function(){
+  return gulp.src('*.js')
+  .pipe(format());
+});
+
+gulp.task('prettifyMainHTML', function() {
+  gulp.src('app/*.html')
+    .pipe(prettify({indent_char: '	', indent_size: 1}))
+    .pipe(gulp.dest('app/'))
+});
+
+gulp.task('prettifyViewsHTML', function() {
+  gulp.src('app/views/*.html')
+    .pipe(prettify({indent_char: '  ', indent_size: 1}))
+    .pipe(gulp.dest('app/views/'))
+});
+
+gulp.task('cleanMainHTML', function () {
+  gulp.src('app/*.html')
+  .pipe(removeEmptyLines({
+    removeComments: false
+  }))
+  .pipe(gulp.dest('app/'));
+});
+
+gulp.task('cleanViewsHTML', function () {
+  gulp.src('app/views/*.html')
+  .pipe(removeEmptyLines({
+    removeComments: false
+  }))
+  .pipe(gulp.dest('app/views/'));
+});

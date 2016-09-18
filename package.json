@@ -20,10 +20,12 @@
     "browser-sync": "^2.16.0",
     "gulp": "^3.9.1",
     "gulp-cssnano": "^2.1.2",
+    "gulp-html-prettify": "0.0.1",
     "gulp-imagemin": "^3.0.3",
     "gulp-jshint": "^2.0.1",
     "gulp-minify": "0.0.14",
     "gulp-minify-html": "^1.0.6",
+    "gulp-remove-empty-lines": "0.0.8",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7"
   },
