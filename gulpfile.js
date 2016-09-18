@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 	convertNewline = require("gulp-convert-newline");
 
 gulp.task('jsLint', function() {
-	gulp.src('/*.js') // path to your files
+	gulp.src('/**/*.js') // path to your files
 		.pipe(jshint())
 		.pipe(jshint.reporter()); // Dump results
 });
