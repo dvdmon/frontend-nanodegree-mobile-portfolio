@@ -1,10 +1,18 @@
 <!DOCTYPE HTML>
+<!-- added lang attribute and manifest for app cache -->
 <html lang="en" manifest="pizza.appcache">
+
 <head>
+  <!-- added standard encoding and viewport tags for compliance and mobile -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cam's Pizzaria</title>
   <script>
+    /* This script allows for loading of stylesheets only after
+       only after the page is loaded - in order to speed up initial
+       page load and prevent css render-blocking. Got the idea
+       from https://www.giftofspeed.com/defer-loading-css/
+    */
     var cb = function() {
         var stylesht1 = document.createElement('link');
         stylesht1.rel = 'stylesheet';
@@ -22,6 +30,7 @@
       else window.addEventListener('load', cb);
   </script>
 </head>
+
 <body>
   <div class="container">
     <div id="header" class="row">
@@ -158,6 +167,9 @@
     </div>
     <div id="footer" class="col-md-12">Thanks for visiting! &copy; 2014 Udacity</div>
   </div>
+  <!-- was not able to make this script async or load it after the page loaded as that
+       prevented propper functioning of the script -->
   <script type="text/javascript" src="js/main.js"></script>
 </body>
+
 </html>
